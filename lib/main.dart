@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:mayoristas/screens/recept.dart';
+import 'package:mayoristas/pages/widgets/recept.dart';
 
-
-void main() => runApp(const MyApp());
+void main() {
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Recept(),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      home: const ReceptPage(),
     );
   }
 }
