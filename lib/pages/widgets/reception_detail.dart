@@ -30,10 +30,6 @@ class ReceptionDetail extends StatelessWidget {
                 child: const Text(
                   '5',
                   style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.1,
-                    color: Colors.black,
                   ),
                 ),
               ),
