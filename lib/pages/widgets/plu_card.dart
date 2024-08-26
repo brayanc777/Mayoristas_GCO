@@ -16,145 +16,56 @@ class _PluCardState extends State<PluCard> {
       color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
-        side: const BorderSide(
-          color: Color.fromRGBO(217, 217, 217, 1),
-          width: 1.0,
-        ),
+        side: BorderSide(color: Colors.grey[300]!, width: 1.0),
       ),
-      child: Container(
+      child: SizedBox(
         width: 299,
         height: 91,
-        padding: const EdgeInsets.all(16.0),
         child: Stack(
           children: [
-            const Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                '11111118934723',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w600,
-                                  height: 22.4 / 14.0,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                'x X Und.',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w600,
-                                  height: 22.4 / 14.0,
-                                  color: Colors.black,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 02),
-                      Expanded(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Pantalo',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                  height: 22.4 / 12.0,
-                                  color: Color.fromRGBO(117, 117, 117, 1),
-                                ),
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            SizedBox(width: 8.0),
-                            Expanded(
-                              child: Text(
-                                'A785C',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                  height: 22.4 / 12.0,
-                                  color: Color.fromRGBO(117, 117, 117, 1),
-                                ),
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            SizedBox(width: 8.0),
-                            Expanded(
-                              child: Text(
-                                'Talla L',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                  height: 22.4 / 12.0,
-                                  color: Color.fromRGBO(117, 117, 117, 1),
-                                ),
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            SizedBox(width: 8.0),
-                            Expanded(
-                              child: Text(
-                                'Rojo',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w400,
-                                  height: 22.4 / 12.0,
-                                  color: Color.fromRGBO(117, 117, 117, 1),
-                                ),
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+             const Center(
+              child: SizedBox(
+                width: 251,
+                height: 52,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Text('11111118934723',
+                                style: TextStyle(fontSize:  14, fontWeight: FontWeight.w600))),
+                        Expanded(
+                            child: Text('x 200 Und.',
+                                style: TextStyle(fontSize:  14, fontWeight: FontWeight.w600))),
+                      ],
+                    ),
+                    SizedBox(height: 2),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Text('Info',
+                                style:
+                                    TextStyle(fontSize:  16, fontWeight:  FontWeight.w400, color:  Colors.grey))),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-           Positioned(
-  top: 10,
-  right: -3.0,
-  child: SizedBox(
-    width: 36,
-    height: 36,
-    child: Align(
-      alignment: Alignment.center,
-      child: SizedBox(
-        width: 24,
-        height: 24,
-        child: Checkbox(
-          value: isChecked,
-          onChanged: (bool? value) {
-            setState(() {
-              isChecked = value ?? false;
-            });
-          },
-        ),
-      ),
-    ),
-  ),
-)
-
+            Positioned(
+              top: 26,
+              right: 30,
+              child: Checkbox(
+                value: isChecked,
+                onChanged: (bool? value) {
+                  setState(() {
+                    isChecked = value ?? false;
+                  });
+                },
+              ),
+            ),
           ],
         ),
       ),

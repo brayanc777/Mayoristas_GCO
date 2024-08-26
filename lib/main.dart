@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mayoristas/screens/home.dart';
 import 'package:mayoristas/screens/recept.dart';
 import 'package:mayoristas/screens/login.dart';
 import 'package:mayoristas/screens/splash.dart';
@@ -12,14 +13,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Mayoristas',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: const Login(),
+      home: 
+      //  Home(),
+      // const Splash(),
+       ReceptPage(),
+      // const Login(),
     );
   }
 }

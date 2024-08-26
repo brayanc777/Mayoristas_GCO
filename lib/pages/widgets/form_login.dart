@@ -35,7 +35,7 @@ final GlobalKey<FormState> _stateForm = GlobalKey<FormState>();
                   image: AssetImage('lib/assets/images/background-image.png'))),
             
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Form(
               key: _stateForm,
@@ -57,7 +57,7 @@ final GlobalKey<FormState> _stateForm = GlobalKey<FormState>();
                               style: const TextStyle(),
                               decoration: inputDecoration,
                               validator: (value) {
-                                   final userRegex = RegExp(r'^[a-z]+.[a-z]+(.[a-z0-9]{1,2})?@gco.com.co');
+                                   final userRegex = RegExp(r'^[a-zA-Z0-9._-]{6,30}$');
                                 if(!userRegex.hasMatch(value!)) {
                                   return 'no pasa';
                                 }else {
@@ -121,12 +121,24 @@ final GlobalKey<FormState> _stateForm = GlobalKey<FormState>();
                 ],
             )
             ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child:  SizedBox(
-              width: 101,
-              child: Image.asset('lib/assets/images/gco_logo.png')),
-        )
+      
+           Column(
+            children: [
+              Container(
+                 padding: const EdgeInsets.only(top: 50.0),
+              width: 110,child: Image.asset('lib/assets/images/advisor_image.png')),
+              Container(
+                 padding: const EdgeInsets.only(bottom: 25.0),
+                child: const Text('Advisor', style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
+                  color: Colors.white
+                ),),
+              )
+            ],
+            
+            ),
+   
           
           ],
         ),

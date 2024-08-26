@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mayoristas/pages/widgets/bg_image.dart';
 import 'package:mayoristas/pages/widgets/reception_detail.dart';
 import '../pages/widgets/sid_input.dart';
-import '../pages/widgets/material_input.dart';
+import '../pages/widgets/plu_input.dart';
 
 class ReceptPage extends StatefulWidget {
   const ReceptPage({super.key});
@@ -18,7 +19,7 @@ class _ReceptPageState extends State<ReceptPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        width: 355,
+        width: double.infinity,
         decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('lib/assets/images/background-image.png'))),
@@ -31,19 +32,26 @@ class _ReceptPageState extends State<ReceptPage> {
                 const SizedBox(height: 20),
                 const MaterialInput(),
                 const SizedBox(height: 20),
-                Container(
-                 padding: const EdgeInsets.only(left: 5.0, right: 5.0, top: 2.5, bottom: 2.5),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: const Color.fromRGBO(217, 217, 217, 1)),
-                      borderRadius: BorderRadius.circular(5.0),
+                Align(
+                  
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                      width: 150,
+                      padding: const EdgeInsets.only(
+                          left: 5.0, right: 5.0, top: 2.5, bottom: 2.5),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: const Color.fromRGBO(217, 217, 217, 1)),
+                        borderRadius: BorderRadius.circular(5.0),
+                        color: Colors.white,
                       ),
-                  child: const Text(
-                    'Detalle de la recepcion',
-                    style: TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                      child: const Text(
+                        'Detalle de la recepcion',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
                 ),
                 const SizedBox(height: 5.0),
                 const ReceptionDetail(),
