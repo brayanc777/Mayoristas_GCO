@@ -43,6 +43,7 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter
+  go_router: ^14.2.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -59,6 +60,7 @@ flutter:
     - lib/assets/images/background-image.png
     - lib/assets/images/gco_logo.png
     - lib/assets/images/advisor_image.png
+    - lib/assets/info.json
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mayoristas/pages/widgets/bg_image.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,6 +10,26 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return const BgImage();
+    return Container(
+         decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('lib/assets/images/background-image.png'))),
+
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  width: 360,
+                  height: 66,
+                  color: const Color.fromRGBO(247, 245, 255, 1),
+                  child: const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(onPressed: () {
+                        Navigator.push(context, route)
+                      }, icon: Icon(Icons.abc_outlined))
+                    ],
+                  ),
+                ),
+    );
   }
 }

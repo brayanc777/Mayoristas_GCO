@@ -1,96 +1,218 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:convert';
 import 'plu_card.dart';
-
-class ReceptionDetail extends StatelessWidget {
+class ReceptionDetail extends StatefulWidget {
   const ReceptionDetail({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 317,
-      height: 380,
-      padding: const EdgeInsets.only(left: 3.0, right: 3.0),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: const Color.fromARGB(255, 214, 213, 213),
-          width: 1.0,
-        ),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 64,
-                height: 63,
-                margin: const EdgeInsets.only(left: 9.0),
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(254, 247, 255, 1),
-                ),
-                child:  const Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 41,
-                      height: 39,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          
-                    Icon(Icons.stars_outlined),
-                    SizedBox(width: 8,),
-                    Text(
-                      '5',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-             TextButton(
-  style: TextButton.styleFrom(
-    backgroundColor: const Color.fromRGBO(236, 34, 31, 1),
-    minimumSize: const Size(47, 40),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8.0),
-      side: const BorderSide(
-        color: Color.fromRGBO(192, 15, 12, 1),
-        width: 1.0,
-      ),
-    ),
-  ),
-  onPressed: () {
-    
-  },
-  child: const Icon(
-    Icons.delete_outline_outlined,
-    color: Colors.white,
-    size: 16,
-  ),
-),
+  _ReceptionDetailState createState() => _ReceptionDetailState();
+}
 
-            ],
+class _ReceptionDetailState extends State<ReceptionDetail> {
+  List<dynamic> _items = [];
+  List<dynamic> _filteredItems = [];
+  final TextEditingController _idController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      final jsonString = await rootBundle.loadString('lib/assets/info.json');
+      final data = json.decode(jsonString)['info'][0];
+      setState(() {
+        _items = data
+            .map((item) => {...item, 'isSelected': false, 'count': 0})
+            .toList();
+      });
+    } catch (e) {
+      print('Error al cargar los datos JSON: $e');
+    }
+  }
+
+  void _addCardById(String id) {
+    final itemIndex = _filteredItems.indexWhere((item) => item['Id'] == id);
+
+    setState(() {
+      if (itemIndex != -1) {
+        _filteredItems[itemIndex]['count']++;
+      } else {
+        final item = _items.firstWhere(
+          (item) => item['Id'] == id,
+          orElse: () => null,
+        );
+        if (item != null) {
+          _filteredItems.add({...item, 'count': 1});
+        }
+      }
+    });
+
+    _idController.clear();
+  }
+
+  void _removeSelectedItems() {
+    setState(() {
+      _filteredItems.removeWhere((item) => item['isSelected']);
+    });
+  }
+
+  @override
+  void dispose() {
+    _idController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(
+          width: 300,
+          height: 22,
+          child: Text(
+            'Material',
+            style: TextStyle(
+              fontFamily: 'Arial',
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+            ),
+            textAlign: TextAlign.left,
           ),
-          Expanded(
-            child: ListView(
-              children: const [
-                PluCard(),
-                PluCard(),
-                PluCard(),
-                PluCard(),
-              ],
+        ),
+        const SizedBox(height: 4),
+        Container(
+          width: 300,
+          height: 40,
+          padding: const EdgeInsets.only(left: 16.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: const Color.fromARGB(255, 214, 213, 213),
+              width: 1.0,
             ),
           ),
-        ],
-      ),
+          child: TextFormField(
+            controller: _idController,
+            textAlignVertical: TextAlignVertical.center,
+            decoration: const InputDecoration(
+              hintText: 'Escanee el EAN o PLU',
+              border: InputBorder.none,
+            ),
+            onFieldSubmitted: _addCardById,
+          ),
+        ),
+        const SizedBox(height: 20),
+        SizedBox(
+          width: 317,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              width: 150,
+              padding: const EdgeInsets.all(2.5),
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color.fromRGBO(217, 217, 217, 1)),
+                borderRadius: BorderRadius.circular(5.0),
+                color: Colors.white,
+              ),
+              child: const Text(
+                'Detalle de la recepcion',
+                style: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Container(
+          width: 317,
+          height: 380,
+          padding: const EdgeInsets.symmetric(horizontal: 3.0),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: const Color.fromARGB(255, 214, 213, 213),
+              width: 1.0,
+            ),
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 64,
+                    height: 63,
+                    margin: const EdgeInsets.only(left: 9.0),
+                    decoration: const BoxDecoration(
+                      color: Color.fromRGBO(254, 247, 255, 1),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.stars_outlined),
+                        const SizedBox(width: 8),
+                        Text(
+                          '${_filteredItems.length}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(236, 34, 31, 1),
+                      minimumSize: const Size(47, 40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        side: const BorderSide(
+                          color: Color.fromRGBO(192, 15, 12, 1),
+                          width: 1.0,
+                        ),
+                      ),
+                    ),
+                    onPressed: _removeSelectedItems,
+                    child: const Icon(
+                      Icons.delete_outline_outlined,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _filteredItems.length,
+                  itemBuilder: (context, index) {
+                    final item = _filteredItems[index];
+                    return PluCard(
+                      id: item['Id'],
+                      tipo: item['Tipo'],
+                      referencia: item['Referencia'],
+                      talla: item['Talla'],
+                      color: item['Color'],
+                      count: item['count'],
+                      isSelected: item['isSelected'],
+                      onSelectionChanged: (isSelected) {
+                        setState(() {
+                          item['isSelected'] = isSelected;
+                        });
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

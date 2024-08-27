@@ -1,0 +1,77 @@
+{
+    "info": [
+      [
+        {
+          "Id": "1",
+          "Tipo": "Camisa",
+          "Referencia": "B45GH",
+          "Talla": "Talla M",
+          "Color": "Azul"
+        },
+        {
+          "Id": "2",
+          "Tipo": "Chaqueta",
+          "Referencia": "C7FGHR",
+          "Talla": "Talla L",
+          "Color": "Rojo"
+        },
+        {
+          "Id": "3",
+          "Tipo": "Short",
+          "Referencia": "D0HRTH5",
+          "Talla": "Talla S",
+          "Color": "Negro"
+        },
+        {
+          "Id": "4",
+          "Tipo": "Vestido",
+          "Referencia": "E3HRT45",
+          "Talla": "Talla XL",
+          "Color": "Rosa"
+        },
+        {
+          "Id": "5",
+          "Tipo": "Sudadera",
+          "Referencia": "FHT48H",
+          "Talla": "Talla M",
+          "Color": "Gris"
+        },
+        {
+          "Id": "6",
+          "Tipo": "Camisa",
+          "Referencia": "G90OI",
+          "Talla": "Talla L",
+          "Color": "Blanco"
+        },
+        {
+          "Id": "7",
+          "Tipo": "Chaqueta",
+          "Referencia": "H2AEA4J",
+          "Talla": "Talla S",
+          "Color": "Verde"
+        },
+        {
+          "Id": "8",
+          "Tipo": "Pantalon",
+          "Referencia": "I5RGE3K",
+          "Talla": "Talla M",
+          "Color": "Beige"
+        },
+        {
+          "Id": "9",
+          "Tipo": "Short",
+          "Referencia": "J89GBR0L",
+          "Talla": "Talla XL",
+          "Color": "Azul Marino"
+        },
+        {
+          "Id": "10",
+          "Tipo": "Vestido",
+          "Referencia": "K1DFB3M",
+          "Talla": "Talla S",
+          "Color": "Naranja"
+        }
+      ]
+    ]
+  }
+  

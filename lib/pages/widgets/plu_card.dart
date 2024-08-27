@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
 
 class PluCard extends StatefulWidget {
-  const PluCard({super.key});
+  final String id;
+  final String tipo;
+  final String referencia;
+  final String talla;
+  final String color;
+  final int count;
+  final bool isSelected;
+  final ValueChanged<bool> onSelectionChanged;
+
+  const PluCard({
+    Key? key,
+    required this.id,
+    required this.tipo,
+    required this.referencia,
+    required this.talla,
+    required this.color,
+    required this.count,
+    required this.isSelected,
+    required this.onSelectionChanged,
+  }) : super(key: key);
 
   @override
   State<PluCard> createState() => _PluCardState();
 }
 
 class _PluCardState extends State<PluCard> {
-  bool isChecked = true;
+  bool isChecked = false; 
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +42,7 @@ class _PluCardState extends State<PluCard> {
         height: 91,
         child: Stack(
           children: [
-             const Center(
+            Center(
               child: SizedBox(
                 width: 251,
                 height: 52,
@@ -34,20 +53,30 @@ class _PluCardState extends State<PluCard> {
                     Row(
                       children: [
                         Expanded(
-                            child: Text('11111118934723',
-                                style: TextStyle(fontSize:  14, fontWeight: FontWeight.w600))),
+                          child: Text(widget.id,
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
                         Expanded(
-                            child: Text('x 200 Und.',
-                                style: TextStyle(fontSize:  14, fontWeight: FontWeight.w600))),
+                          child: Text('x ${widget.count} Und.',
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
                       ],
                     ),
                     SizedBox(height: 2),
                     Row(
                       children: [
                         Expanded(
-                            child: Text('Info',
-                                style:
-                                    TextStyle(fontSize:  16, fontWeight:  FontWeight.w400, color:  Colors.grey))),
+                          child: Text(
+                            '${widget.tipo}, ${widget.referencia}, ${widget.talla}, ${widget.color}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -58,11 +87,11 @@ class _PluCardState extends State<PluCard> {
               top: 26,
               right: 30,
               child: Checkbox(
-                value: isChecked,
+                value: widget.isSelected,
                 onChanged: (bool? value) {
-                  setState(() {
-                    isChecked = value ?? false;
-                  });
+                  widget.onSelectionChanged(value ?? false);
+                  
+
                 },
               ),
             ),

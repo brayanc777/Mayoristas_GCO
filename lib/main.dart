@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:mayoristas/screens/home.dart';
-import 'package:mayoristas/screens/recept.dart';
-import 'package:mayoristas/screens/login.dart';
-import 'package:mayoristas/screens/splash.dart';
-
+import 'package:go_router/go_router.dart';
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+final GoRouter _router = GoRouter(routes: [
+GoRoute(path: '/',
+builder: (context, state) {
+  return const Home();
+},
+)
+]);
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Mayoristas',
-      home: 
-      //  Home(),
-      // const Splash(),
-       ReceptPage(),
-      // const Login(),
-    );
+    return MaterialApp.router(
+       routerConfig: _router,
+       title: 'Mayoristas',
+      );
   }
 }
