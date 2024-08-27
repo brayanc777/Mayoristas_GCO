@@ -6,27 +6,27 @@ class ReceptionDetail extends StatefulWidget {
   const ReceptionDetail({super.key});
 
   @override
-  _ReceptionDetailState createState() => _ReceptionDetailState();
+  State<ReceptionDetail> createState() => _ReceptionDetailState();
 }
 
 class _ReceptionDetailState extends State<ReceptionDetail> {
-  List<dynamic> _items = [];
-  List<dynamic> _filteredItems = [];
-  final TextEditingController _idController = TextEditingController();
+  List<dynamic> pluList = [];
+  final List<dynamic> pluById = [];
+  final TextEditingController idController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _loadData();
+    loadData();
   }
 
-  Future<void> _loadData() async {
+  Future<void> loadData() async {
     try {
-      final jsonString = await rootBundle.loadString('lib/assets/info.json');
-      final data = json.decode(jsonString)['info'][0];
+      final response = await rootBundle.loadString('lib/assets/info.json');
+      final data = json.decode(response)['info'][0];
       setState(() {
-        _items = data
-            .map((item) => {...item, 'isSelected': false, 'count': 0})
+        pluList = data
+            .map((pluCard) => {...pluCard, 'isSelected': false, 'count': 0})
             .toList();
       });
     } catch (e) {
@@ -34,35 +34,35 @@ class _ReceptionDetailState extends State<ReceptionDetail> {
     }
   }
 
-  void _addCardById(String id) {
-    final itemIndex = _filteredItems.indexWhere((item) => item['Id'] == id);
+  void addCardById(String id) {
+    final pluIndex = pluById.indexWhere((plu) => plu['Id'] == id);
 
     setState(() {
-      if (itemIndex != -1) {
-        _filteredItems[itemIndex]['count']++;
+      if (pluIndex != -1) {
+        pluById[pluIndex]['count']++;
       } else {
-        final item = _items.firstWhere(
-          (item) => item['Id'] == id,
+        final plu = pluList.firstWhere(
+          (plu) => plu['Id'] == id,
           orElse: () => null,
         );
-        if (item != null) {
-          _filteredItems.add({...item, 'count': 1});
+        if (plu != null) {
+          pluById.add({...plu, 'count': 1});
         }
       }
     });
 
-    _idController.clear();
+    idController.clear();
   }
 
-  void _removeSelectedItems() {
+  void removeSelectedItems() {
     setState(() {
-      _filteredItems.removeWhere((item) => item['isSelected']);
+      pluById.removeWhere((item) => item['isSelected']);
     });
   }
 
   @override
   void dispose() {
-    _idController.dispose();
+    idController.dispose();
     super.dispose();
   }
 
@@ -95,14 +95,17 @@ class _ReceptionDetailState extends State<ReceptionDetail> {
               width: 1.0,
             ),
           ),
-          child: TextFormField(
-            controller: _idController,
-            textAlignVertical: TextAlignVertical.center,
-            decoration: const InputDecoration(
-              hintText: 'Escanee el EAN o PLU',
-              border: InputBorder.none,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom:  10.0),
+            child: TextFormField(
+              controller: idController,
+              textAlignVertical: TextAlignVertical.center,
+              decoration: const InputDecoration(
+                hintText: 'Escanee el EAN o PLU',
+                border: InputBorder.none,
+              ),
+              onFieldSubmitted: addCardById,
             ),
-            onFieldSubmitted: _addCardById,
           ),
         ),
         const SizedBox(height: 20),
@@ -131,7 +134,7 @@ class _ReceptionDetailState extends State<ReceptionDetail> {
         const SizedBox(height: 10),
         Container(
           width: 317,
-          height: 380,
+          height: 366,
           padding: const EdgeInsets.symmetric(horizontal: 3.0),
           decoration: BoxDecoration(
             border: Border.all(
@@ -157,7 +160,7 @@ class _ReceptionDetailState extends State<ReceptionDetail> {
                         const Icon(Icons.stars_outlined),
                         const SizedBox(width: 8),
                         Text(
-                          '${_filteredItems.length}',
+                          '${pluById.length}',
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
@@ -166,32 +169,35 @@ class _ReceptionDetailState extends State<ReceptionDetail> {
                       ],
                     ),
                   ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromRGBO(236, 34, 31, 1),
-                      minimumSize: const Size(47, 40),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        side: const BorderSide(
-                          color: Color.fromRGBO(192, 15, 12, 1),
-                          width: 1.0,
+                  Container(
+                    margin: const EdgeInsets.only(right: 9.0),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(236, 34, 31, 1),
+                        minimumSize: const Size(47, 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          side: const BorderSide(
+                            color: Color.fromRGBO(192, 15, 12, 1),
+                            width: 1.0,
+                          ),
                         ),
                       ),
-                    ),
-                    onPressed: _removeSelectedItems,
-                    child: const Icon(
-                      Icons.delete_outline_outlined,
-                      color: Colors.white,
-                      size: 16,
+                      onPressed: removeSelectedItems,
+                      child: const Icon(
+                        Icons.delete_outline_outlined,
+                        color: Colors.white,
+                        size: 16,
+                      ),
                     ),
                   ),
                 ],
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: _filteredItems.length,
+                  itemCount: pluById.length,
                   itemBuilder: (context, index) {
-                    final item = _filteredItems[index];
+                    final item = pluById[index];
                     return PluCard(
                       id: item['Id'],
                       tipo: item['Tipo'],

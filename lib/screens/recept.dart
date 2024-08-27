@@ -16,23 +16,33 @@ class _ReceptPageState extends State<ReceptPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('lib/assets/images/background-image.png'))),
-        child: ListView(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SidInput(controller: controller),
-                const SizedBox(height: 10.0),
-                const ReceptionDetail(),
-              ],
-            ),
-          ],
-        ),
+
+      body: Stack(
+        children: [
+          Positioned(
+            top: 193,
+            left: 50,
+            height: 385,
+              child: Container(
+            width: 401,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image:
+                        AssetImage('lib/assets/images/background-image.png'))),
+          )),
+          ListView(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SidInput(controller: controller),
+                  const SizedBox(height: 10.0),
+                  const ReceptionDetail(),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

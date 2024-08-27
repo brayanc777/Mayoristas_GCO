@@ -18,14 +18,14 @@
         {
           "Id": "3",
           "Tipo": "Short",
-          "Referencia": "D0HRTH5",
+          "Referencia": "D0HRT5",
           "Talla": "Talla S",
           "Color": "Negro"
         },
         {
           "Id": "4",
           "Tipo": "Vestido",
-          "Referencia": "E3HRT45",
+          "Referencia": "E3HR45",
           "Talla": "Talla XL",
           "Color": "Rosa"
         },
@@ -46,28 +46,28 @@
         {
           "Id": "7",
           "Tipo": "Chaqueta",
-          "Referencia": "H2AEA4J",
+          "Referencia": "H2AEAJ",
           "Talla": "Talla S",
           "Color": "Verde"
         },
         {
           "Id": "8",
           "Tipo": "Pantalon",
-          "Referencia": "I5RGE3K",
+          "Referencia": "I5RGE3",
           "Talla": "Talla M",
           "Color": "Beige"
         },
         {
           "Id": "9",
           "Tipo": "Short",
-          "Referencia": "J89GBR0L",
+          "Referencia": "J89GBL",
           "Talla": "Talla XL",
           "Color": "Azul Marino"
         },
         {
           "Id": "10",
           "Tipo": "Vestido",
-          "Referencia": "K1DFB3M",
+          "Referencia": "K13B3M",
           "Talla": "Talla S",
           "Color": "Naranja"
         }

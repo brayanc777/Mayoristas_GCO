@@ -11,7 +11,7 @@ class PluCard extends StatefulWidget {
   final ValueChanged<bool> onSelectionChanged;
 
   const PluCard({
-    Key? key,
+    super.key,
     required this.id,
     required this.tipo,
     required this.referencia,
@@ -20,7 +20,7 @@ class PluCard extends StatefulWidget {
     required this.count,
     required this.isSelected,
     required this.onSelectionChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<PluCard> createState() => _PluCardState();
@@ -54,23 +54,23 @@ class _PluCardState extends State<PluCard> {
                       children: [
                         Expanded(
                           child: Text(widget.id,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w600)),
                         ),
                         Expanded(
                           child: Text('x ${widget.count} Und.',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w600)),
                         ),
                       ],
                     ),
-                    SizedBox(height: 2),
+                    const SizedBox(height: 2),
                     Row(
                       children: [
                         Expanded(
                           child: Text(
                             '${widget.tipo}, ${widget.referencia}, ${widget.talla}, ${widget.color}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
                               color: Colors.grey,
