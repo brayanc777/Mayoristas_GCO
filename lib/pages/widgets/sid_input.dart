@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 
-class SidInput extends StatelessWidget {
+class SidInput extends StatefulWidget {
   final TextEditingController controller;
 
   const SidInput({super.key, required this.controller});
+
+  @override
+  State<SidInput> createState() => _SidInputState();
+}
+
+class _SidInputState extends State<SidInput> {
+final TextEditingController clearController = TextEditingController();
+
+void clearSidInput() {
+clearController.clear();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +33,17 @@ class SidInput extends StatelessWidget {
             ),
           ),
           child: TextFormField(
-            controller: controller,
-            decoration: const InputDecoration(
+            controller: clearController,
+            decoration: InputDecoration(
               labelText: '    SID',
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 color: Color.fromRGBO(73, 69, 79, 1),
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
               ),
               suffixIcon: IconButton(
-                onPressed: null,
-                icon: Icon(
+                onPressed: clearSidInput,
+                icon: const Icon(
                   Icons.cancel_outlined,
                   color: Color.fromRGBO(73, 69, 79, 1),
                 ),

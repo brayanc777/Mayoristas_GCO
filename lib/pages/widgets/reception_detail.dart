@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 import 'plu_card.dart';
+
 class ReceptionDetail extends StatefulWidget {
   const ReceptionDetail({super.key});
 
@@ -12,7 +13,7 @@ class ReceptionDetail extends StatefulWidget {
 class _ReceptionDetailState extends State<ReceptionDetail> {
   List<dynamic> pluList = [];
   final List<dynamic> pluById = [];
-  final TextEditingController idController = TextEditingController();
+  final TextEditingController pluInputController = TextEditingController();
 
   @override
   void initState() {
@@ -30,7 +31,7 @@ class _ReceptionDetailState extends State<ReceptionDetail> {
             .toList();
       });
     } catch (e) {
-      print('Error al cargar los datos JSON: $e');
+      print('Error al cargar los datos: $e');
     }
   }
 
@@ -51,19 +52,13 @@ class _ReceptionDetailState extends State<ReceptionDetail> {
       }
     });
 
-    idController.clear();
+    pluInputController.clear();
   }
 
   void removeSelectedItems() {
     setState(() {
       pluById.removeWhere((item) => item['isSelected']);
     });
-  }
-
-  @override
-  void dispose() {
-    idController.dispose();
-    super.dispose();
   }
 
   @override
@@ -96,9 +91,9 @@ class _ReceptionDetailState extends State<ReceptionDetail> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(bottom:  10.0),
+            padding: const EdgeInsets.only(bottom: 10.0),
             child: TextFormField(
-              controller: idController,
+              controller: pluInputController,
               textAlignVertical: TextAlignVertical.center,
               decoration: const InputDecoration(
                 hintText: 'Escanee el EAN o PLU',
@@ -117,7 +112,8 @@ class _ReceptionDetailState extends State<ReceptionDetail> {
               width: 150,
               padding: const EdgeInsets.all(2.5),
               decoration: BoxDecoration(
-                border: Border.all(color: const Color.fromRGBO(217, 217, 217, 1)),
+                border:
+                    Border.all(color: const Color.fromRGBO(217, 217, 217, 1)),
                 borderRadius: BorderRadius.circular(5.0),
                 color: Colors.white,
               ),

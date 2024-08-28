@@ -31,9 +31,9 @@ class _LoginState extends State<Login> {
         body: Stack(
           children: [
             Positioned(
-              top: 25,
-              left: 41,
-              height: 401,
+                top: 25,
+                left: 41,
+                height: 401,
                 child: Container(
                     width: 401,
                     decoration: const BoxDecoration(
@@ -61,15 +61,14 @@ class _LoginState extends State<Login> {
                                   width: 228,
                                   height: 41,
                                   child: TextFormField(
+                                      autofocus: true,
                                       style: const TextStyle(),
                                       decoration: inputDecoration,
                                       validator: (value) {
-                                        final userRegex =
-                                            RegExp(r'^[a-zA-Z0-9._-]{6,30}$');
-                                        if (!userRegex.hasMatch(value!)) {
-                                          return 'no pasa';
-                                        } else {
+                                        if (value! == 'user') {
                                           return null;
+                                        } else {
+                                          return 'no pasa';
                                         }
                                       })),
                             ],
@@ -86,15 +85,10 @@ class _LoginState extends State<Login> {
                                   //  obscureText: true,
                                   decoration: inputDecoration,
                                   validator: (value) {
-                                    final passwordRegex = RegExp(
-                                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-                                    if (!passwordRegex.hasMatch(value!)) {
-                                      return 'no pasa';
+                                    if (value! == '123') {
+                                      return null;
                                     }
-                                    if (value.isEmpty) {
-                                      return 'ok';
-                                    }
-                                    return null;
+                                    return 'contraseña incorrecta';
                                   },
                                 ),
                               ),
@@ -136,8 +130,8 @@ class _LoginState extends State<Login> {
                       Container(
                           padding: const EdgeInsets.only(top: 50.0),
                           width: 110,
-                          child:
-                              Image.asset('lib/assets/images/advisor_image.png')),
+                          child: Image.asset(
+                              'lib/assets/images/advisor_image.png')),
                       Container(
                         padding: const EdgeInsets.only(bottom: 25.0),
                         child: const Text(

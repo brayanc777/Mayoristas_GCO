@@ -9,6 +9,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+String dropdownvalue = 'option 1';
+final options = [
+  'option 1',
+  'option 2',
+  'option 3',
+];
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,17 +39,33 @@ class _HomeState extends State<Home> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    width: 48,
-                    height: 43,
-                    color: const Color.fromRGBO(247, 245, 255, 1),
-                    child: const IconButton(
-                      color: Colors.black,
-                        onPressed: null, icon: Icon(Icons.view_list_rounded)),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.topLeft,
+                //   child: Container(
+                //     width: 48,
+                //     height: 43,
+                //     color: const Color.fromRGBO(247, 245, 255, 1),
+                //     child: const IconButton(
+                //       color: Colors.black,
+                //         onPressed: null, icon: Icon(Icons.view_list_rounded)),
+                //   ),
+                // ),
+
+                DropdownButton(
+                  icon: const Icon(Icons.view_list_rounded),
+                  items: options.map((String options) {
+                    return DropdownMenuItem(
+                      value: options,
+                      child: Text(options)
+                    );
+                  }).toList(),
+                  onChanged: 
+                  (String? newValue) {
+                    setState(() {
+                      dropdownvalue = newValue!;
+                    });
+                  }),
+
                 Container(
                   height: 66,
                   color: const Color.fromRGBO(247, 245, 255, 1),
