@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -10,6 +13,36 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _stateForm = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    postUser();
+  }
+
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  String resul = '';
+
+  Future<void> postUser() async {
+    try {
+      final response =
+          await http.post(Uri.parse('http://localhost:8080/auth/login'),
+          body: jsonEncode(<String, dynamic>{
+            'username': usernameController.value,
+            'passwordControler': passwordController,
+          })
+          );
+          if (response.statusCode == 201) {
+            final responseDate = jsonDecode(response.body);
+          }
+
+      
+  
+    } catch (e) {
+      print('error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
