@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mayoristas/screens/home.dart';
 import 'package:mayoristas/screens/login.dart';
 import 'package:mayoristas/screens/recept.dart';
+import 'package:mayoristas/screens/sing_up.dart';
 import 'package:mayoristas/screens/splash.dart';
 
 final GoRouter router = GoRouter(routes: <GoRoute>[
@@ -23,7 +24,13 @@ final GoRouter router = GoRouter(routes: <GoRoute>[
       builder: (BuildContext context, GoRouterState state) {
         return const Login();
       }),
-      GoRoute(path: '/splash',
+  GoRoute(
+      path: '/singUp',
+      builder: (BuildContext context, GoRouterState state) {
+        return const SignUp();
+      }),
+  GoRoute(
+      path: '/splash',
       builder: (BuildContext context, GoRouterState state) {
         return const Splash();
       })

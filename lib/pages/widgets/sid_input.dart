@@ -10,58 +10,47 @@ class SidInput extends StatefulWidget {
 }
 
 class _SidInputState extends State<SidInput> {
-final TextEditingController clearController = TextEditingController();
+  final TextEditingController sidController = TextEditingController();
+  final TextEditingController clearController = TextEditingController();
 
-void clearSidInput() {
-clearController.clear();
-}
+  void clearSidInput() {
+    clearController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          width: 300,
-          height: 50,
-          margin: const EdgeInsets.only(top: 26),
-          decoration: const BoxDecoration(
-          color: Color.fromRGBO(230, 224, 233, 1),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(4),
-              topRight: Radius.circular(4),
-            ),
+    return Container(
+      width: 300,
+      height: 50,
+      //padding: const EdgeInsets.only(left: 15.0),
+      margin: const EdgeInsets.only(top: 26),
+      decoration: const BoxDecoration(
+        color: Color.fromRGBO(230, 224, 233, 1),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(4),
+          topRight: Radius.circular(4),
+        ),
+      ),
+      child: TextFormField(
+        autofocus: true,
+        controller: clearController,
+        decoration: InputDecoration(
+          helperText:  'Seleccione la caja que desea recepcionar',
+          labelText: '$sidController',
+          labelStyle: const TextStyle(
+            color: Color.fromRGBO(73, 69, 79, 1),
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
           ),
-          child: TextFormField(
-            controller: clearController,
-            decoration: InputDecoration(
-              labelText: '    SID',
-              labelStyle: const TextStyle(
-                color: Color.fromRGBO(73, 69, 79, 1),
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-              suffixIcon: IconButton(
-                onPressed: clearSidInput,
-                icon: const Icon(
-                  Icons.cancel_outlined,
-                  color: Color.fromRGBO(73, 69, 79, 1),
-                ),
-              ),
+          suffixIcon: IconButton(
+            onPressed: clearSidInput,
+            icon: const Icon(
+              Icons.cancel_outlined,
+              color: Color.fromRGBO(73, 69, 79, 1),
             ),
           ),
         ),
-        Container(
-          width: 300,
-          height: 18,
-          padding: const EdgeInsets.fromLTRB(16, 2, 16, 0),
-          child: const Text(
-            'Seleccione el SID que desea recepcionar',
-            style: TextStyle(fontSize: 12),
-            textAlign: TextAlign.start,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

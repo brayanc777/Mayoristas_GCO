@@ -74,7 +74,7 @@ final options = [
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       IconButton(
-                          onPressed: () => context.go('/splash'),
+                          onPressed: () => context.go('/singUp'),
                           icon: const Icon(
                               size: 45,
                               color: Color.fromRGBO(151, 71, 255, 1),

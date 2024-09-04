@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
@@ -13,34 +12,39 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _stateForm = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    postUser();
-  }
-
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  String resul = '';
+  String result = '';
 
   Future<void> postUser() async {
     try {
-      final response =
-          await http.post(Uri.parse('http://localhost:8080/auth/login'),
-          body: jsonEncode(<String, dynamic>{
-            'username': usernameController.value,
-            'passwordControler': passwordController,
-          })
-          );
-          if (response.statusCode == 201) {
-            final responseDate = jsonDecode(response.body);
-          }
+      final response = await http.post(
+        Uri.parse('http://localhost:8080/auth/login'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'username': usernameController.text,
+          'password': passwordController.text,
+        }),
+      );
 
-      
-  
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        setState(() {
+          result =
+              'User name: ${responseData['username']}  Password: ${responseData['password']}';
+        });
+       // print(responseData);
+        print(result);
+       // context.go('/');
+      } else {
+        throw Exception('No se pudo iniciar secion');
+      }
     } catch (e) {
-      print('error: $e');
+      setState(() {
+        result = 'Error: $e';
+      });
     }
   }
 
@@ -94,15 +98,15 @@ class _LoginState extends State<Login> {
                                   width: 228,
                                   height: 41,
                                   child: TextFormField(
+                                      controller: usernameController,
                                       autofocus: true,
                                       style: const TextStyle(),
                                       decoration: inputDecoration,
                                       validator: (value) {
-                                        if (value! == 'user') {
-                                          return null;
-                                        } else {
-                                          return 'no pasa';
+                                        if (value!.isEmpty) {
+                                          return 'Usuario es requerido';
                                         }
+                                        return null;
                                       })),
                             ],
                           ),
@@ -115,13 +119,14 @@ class _LoginState extends State<Login> {
                                 width: 228,
                                 height: 41,
                                 child: TextFormField(
-                                  //  obscureText: true,
+                                  controller: passwordController,
+                                  obscureText: true,
                                   decoration: inputDecoration,
                                   validator: (value) {
-                                    if (value! == '123') {
-                                      return null;
+                                    if (value!.isEmpty) {
+                                      return 'Contraseña es requerida';
                                     }
-                                    return 'contraseña incorrecta';
+                                    return null;
                                   },
                                 ),
                               ),
@@ -133,11 +138,11 @@ class _LoginState extends State<Login> {
                               height: 40,
                               child: ElevatedButton(
                                 onPressed: () {
+//print(result);
                                   if (_stateForm.currentState!.validate()) {
-                                    context.go('/');
-                                    print('Ingresando...');
+                                    postUser();
                                   } else {
-                                    print('no paso el formulario');
+                                    print('Formulario no válido');
                                   }
                                 },
                                 style: ButtonStyle(
@@ -153,7 +158,7 @@ class _LoginState extends State<Login> {
                               )),
                           const SizedBox(height: 32),
                           const Text(
-                            '¿Olvidasre tu contraseña?',
+                            '¿Olvidaste tu contraseña?',
                             style: inputTextStyle,
                           ),
                         ],
