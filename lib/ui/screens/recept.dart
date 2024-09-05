@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mayoristas/pages/widgets/reception_detail.dart';
-import '../pages/widgets/sid_input.dart';
+import 'package:mayoristas/ui/widgets/reception_detail.dart';
+import 'package:mayoristas/widgets/bg_image.dart';
+import '../widgets/sid_input.dart';
 
 class ReceptPage extends StatefulWidget {
   const ReceptPage({super.key});
@@ -16,20 +17,9 @@ class _ReceptPageState extends State<ReceptPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: Stack(
         children: [
-          Positioned(
-            top: 193,
-            left: 50,
-            height: 385,
-              child: Container(
-            width: 401,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image:
-                        AssetImage('lib/assets/images/background-image.png'))),
-          )),
+          const Positioned(top: 193, left: 50, height: 385, child: BgImage()),
           ListView(
             children: [
               Column(

@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import '../../widgets/advisor_logo.dart';
+import '../../widgets/bg_image.dart';
+import '../widgets/password_input.dart';
+import '../widgets/user_input.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -35,9 +38,9 @@ class _LoginState extends State<Login> {
           result =
               'User name: ${responseData['username']}  Password: ${responseData['password']}';
         });
-       // print(responseData);
+        // print(responseData);
         print(result);
-       // context.go('/');
+        // context.go('/');
       } else {
         throw Exception('No se pudo iniciar secion');
       }
@@ -67,16 +70,7 @@ class _LoginState extends State<Login> {
         backgroundColor: const Color.fromRGBO(36, 41, 51, 1),
         body: Stack(
           children: [
-            Positioned(
-                top: 25,
-                left: 41,
-                height: 401,
-                child: Container(
-                    width: 401,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(
-                                'lib/assets/images/background-image.png'))))),
+            const Positioned(top: 25, left: 41, height: 401, child: BgImage()),
             SizedBox(
               width: double.infinity,
               child: Column(
@@ -87,51 +81,15 @@ class _LoginState extends State<Login> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Usuario',
-                                style: inputTextStyle,
-                              ),
-                              SizedBox(
-                                  width: 228,
-                                  height: 41,
-                                  child: TextFormField(
-                                      controller: usernameController,
-                                      autofocus: true,
-                                      style: const TextStyle(),
-                                      decoration: inputDecoration,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Usuario es requerido';
-                                        }
-                                        return null;
-                                      })),
-                            ],
-                          ),
+                          UserInput(
+                              inputTextStyle: inputTextStyle,
+                              usernameController: usernameController,
+                              inputDecoration: inputDecoration),
                           const SizedBox(height: 8.0),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text('Contraseña', style: inputTextStyle),
-                              SizedBox(
-                                width: 228,
-                                height: 41,
-                                child: TextFormField(
-                                  controller: passwordController,
-                                  obscureText: true,
-                                  decoration: inputDecoration,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Contraseña es requerida';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                          PasswordInput(
+                              inputTextStyle: inputTextStyle,
+                              passwordController: passwordController,
+                              inputDecoration: inputDecoration),
                           Container(
                               margin: const EdgeInsets.only(top: 32),
                               width: 101,
@@ -163,25 +121,7 @@ class _LoginState extends State<Login> {
                           ),
                         ],
                       )),
-                  Column(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.only(top: 50.0),
-                          width: 110,
-                          child: Image.asset(
-                              'lib/assets/images/advisor_image.png')),
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 25.0),
-                        child: const Text(
-                          'Advisor',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
-                              color: Colors.white),
-                        ),
-                      )
-                    ],
-                  ),
+                  AdvisorLogo(),
                 ],
               ),
             ),

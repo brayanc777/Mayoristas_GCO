@@ -2,6 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:mayoristas/ui/widgets/password_input.dart';
+import 'package:mayoristas/ui/widgets/user_input.dart';
+import 'package:mayoristas/widgets/advisor_logo.dart';
+import 'package:mayoristas/widgets/bg_image.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -62,28 +66,16 @@ class _SignUpState extends State<SignUp> {
         ));
 
     const inputTextStyle = TextStyle(
-     color: Colors.black,
+      color: Colors.black,
       fontWeight: FontWeight.w600,
       fontSize: 14,
     );
 
     return Scaffold(
-      backgroundColor:  const Color.fromRGBO(247, 245, 255, 1),
+      backgroundColor: const Color.fromRGBO(247, 245, 255, 1),
       body: Stack(
         children: [
-          Positioned(
-            top: 25,
-            left: 41,
-            height: 401,
-            child: Container(
-              width: 401,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('lib/assets/images/background-image.png'),
-                ),
-              ),
-            ),
-          ),
+          const Positioned(top: 25, left: 41, height: 401, child: BgImage()),
           SizedBox(
             width: double.infinity,
             child: Column(
@@ -94,51 +86,15 @@ class _SignUpState extends State<SignUp> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Cree un nuevo usuario',
-                              style: inputTextStyle),
-                          SizedBox(
-                            width: 228,
-                            height: 41,
-                            child: TextFormField(
-                              controller: usernameController,
-                              autofocus: true,
-                              decoration: inputDecoration,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Usuario es requerido';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                      UserInput(
+                          inputTextStyle: inputTextStyle,
+                          usernameController: usernameController,
+                          inputDecoration: inputDecoration),
                       const SizedBox(height: 8.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Cree una contraseña',
-                              style: inputTextStyle),
-                          SizedBox(
-                            width: 228,
-                            height: 41,
-                            child: TextFormField(
-                              controller: passwordController,
-                              obscureText: true,
-                              decoration: inputDecoration,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Contraseña es requerida';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                      PasswordInput(
+                          inputTextStyle: inputTextStyle,
+                          passwordController: passwordController,
+                          inputDecoration: inputDecoration),
                       const SizedBox(height: 8.0),
                       SizedBox(
                         width: 228,
@@ -211,26 +167,7 @@ class _SignUpState extends State<SignUp> {
                     ],
                   ),
                 ),
-                Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(top: 50.0),
-                      width: 110,
-                      child: Image.asset('lib/assets/images/advisor_image.png'),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 25.0),
-                      child: const Text(
-                        'Advisor',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                const AdvisorLogo()
               ],
             ),
           ),

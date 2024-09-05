@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mayoristas/widgets/bg_image.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -9,31 +10,18 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-String dropdownvalue = 'option 1';
-final options = [
-  'option 1',
-  'option 2',
-  'option 3',
-];
-
-
+  String dropdownvalue = 'option 1';
+  final options = [
+    'option 1',
+    'option 2',
+    'option 3',
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
-              top: 48,
-              left: 50,
-              height: 401,
-              child: Container(
-                width: 401,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                            'lib/assets/images/background-image.png'))),
-              )),
+          const Positioned(top: 48, left: 50, height: 401, child: BgImage()),
           SizedBox(
             width: double.infinity,
             child: Column(
@@ -52,19 +40,16 @@ final options = [
                 // ),
 
                 DropdownButton(
-                  icon: const Icon(Icons.view_list_rounded),
-                  items: options.map((String options) {
-                    return DropdownMenuItem(
-                      value: options,
-                      child: Text(options)
-                    );
-                  }).toList(),
-                  onChanged: 
-                  (String? newValue) {
-                    setState(() {
-                      dropdownvalue = newValue!;
-                    });
-                  }),
+                    icon: const Icon(Icons.view_list_rounded),
+                    items: options.map((String options) {
+                      return DropdownMenuItem(
+                          value: options, child: Text(options));
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownvalue = newValue!;
+                      });
+                    }),
 
                 Container(
                   height: 66,

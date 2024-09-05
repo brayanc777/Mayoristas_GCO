@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mayoristas/screens/home.dart';
-import 'package:mayoristas/screens/login.dart';
-import 'package:mayoristas/screens/recept.dart';
-import 'package:mayoristas/screens/sing_up.dart';
-import 'package:mayoristas/screens/splash.dart';
+import 'package:mayoristas/ui/screens/home.dart';
+import 'package:mayoristas/ui/screens/login.dart';
+import 'package:mayoristas/ui/screens/recept.dart';
+import 'package:mayoristas/ui/screens/sing_up.dart';
+import 'package:mayoristas/ui/screens/splash.dart';
 
 final GoRouter router = GoRouter(routes: <GoRoute>[
   GoRoute(

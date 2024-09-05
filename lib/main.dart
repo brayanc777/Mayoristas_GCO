@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mayoristas/config/router.dart';
+import 'package:mayoristas/ui/router.dart';
 void main() {
   runApp(const MyApp());
 }
