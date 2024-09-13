@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import '../../widgets/advisor_logo.dart';
 import '../../widgets/bg_image.dart';
@@ -35,14 +36,13 @@ class _LoginState extends State<Login> {
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         setState(() {
-          result =
-              'User name: ${responseData['username']}  Password: ${responseData['password']}';
+          result = '${responseData['username']}';
         });
         // print(responseData);
         print(result);
-        // context.go('/');
+        context.go('/');
       } else {
-        throw Exception('No se pudo iniciar secion');
+        throw Exception('No se pudo iniciar sesión');
       }
     } catch (e) {
       setState(() {
@@ -54,78 +54,92 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final inputDecoration = InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding:
-            const EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
-        border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(5.0)));
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding:
+          const EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+    );
+
     const inputTextStyle = TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w400,
       fontSize: 12,
     );
+
     return Scaffold(
-        backgroundColor: const Color.fromRGBO(36, 41, 51, 1),
-        body: Stack(
-          children: [
-            const Positioned(top: 25, left: 41, height: 401, child: BgImage()),
-            SizedBox(
-              width: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Form(
-                      key: _stateForm,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          UserInput(
-                              inputTextStyle: inputTextStyle,
-                              usernameController: usernameController,
-                              inputDecoration: inputDecoration),
-                          const SizedBox(height: 8.0),
-                          PasswordInput(
-                              inputTextStyle: inputTextStyle,
-                              passwordController: passwordController,
-                              inputDecoration: inputDecoration),
-                          Container(
-                              margin: const EdgeInsets.only(top: 32),
-                              width: 101,
-                              height: 40,
-                              child: ElevatedButton(
-                                onPressed: () {
-//print(result);
-                                  if (_stateForm.currentState!.validate()) {
-                                    postUser();
-                                  } else {
-                                    print('Formulario no válido');
-                                  }
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor: WidgetStateProperty.all(
-                                      const Color.fromRGBO(101, 85, 147, 1)),
-                                ),
-                                child: const Text('Ingresar',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14.0,
-                                    )),
-                              )),
-                          const SizedBox(height: 32),
-                          const Text(
-                            '¿Olvidaste tu contraseña?',
-                            style: inputTextStyle,
+      backgroundColor: const Color.fromRGBO(36, 41, 51, 1),
+      // appBar: AppBar(
+      //   title: Header(result: result),
+      // ),
+      body: Stack(
+        children: [
+          const Positioned(top: 25, left: 41, height: 401, child: BgImage()),
+          Container(
+            padding: const EdgeInsets.only(top: 150),
+            width: double.infinity,
+            child: ListView(
+              children: [
+                Form(
+                  key: _stateForm,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      UserInput(
+                        inputTextStyle: inputTextStyle,
+                        usernameController: usernameController,
+                        inputDecoration: inputDecoration,
+                      ),
+                      const SizedBox(height: 8.0),
+                      PasswordInput(
+                        inputTextStyle: inputTextStyle,
+                        passwordController: passwordController,
+                        inputDecoration: inputDecoration,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 32),
+                        width: 101,
+                        height: 40,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_stateForm.currentState!.validate()) {
+                              postUser();
+                            } else {
+                              print('Formulario no válido');
+                            }
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(
+                              const Color.fromRGBO(101, 85, 147, 1),
+                            ),
                           ),
-                        ],
-                      )),
-                  AdvisorLogo(),
-                ],
-              ),
+                          child: const Text(
+                            'Ingresar',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      const Text(
+                        '¿Olvidaste tu contraseña?',
+                        style: inputTextStyle,
+                      ),
+                    ],
+                  ),
+                ),
+                const AdvisorLogo(),
+              ],
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }

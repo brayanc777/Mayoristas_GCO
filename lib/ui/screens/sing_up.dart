@@ -76,10 +76,10 @@ class _SignUpState extends State<SignUp> {
       body: Stack(
         children: [
           const Positioned(top: 25, left: 41, height: 401, child: BgImage()),
-          SizedBox(
+          Container(
+            padding: const EdgeInsets.only(top: 125.0),
             width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+            child: ListView(
               children: [
                 Form(
                   key: _stateForm,

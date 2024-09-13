@@ -33,6 +33,7 @@ clearController.clear();
             ),
           ),
           child: TextFormField(
+            autofocus: true,
             controller: clearController,
             decoration: InputDecoration(
               labelText: '    CAJA',
