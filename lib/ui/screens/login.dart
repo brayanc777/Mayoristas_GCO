@@ -1,7 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
+import '../../providers/authService.dart';
 import '../../widgets/advisor_logo.dart';
 import '../../widgets/bg_image.dart';
 import '../widgets/password_input.dart';
@@ -20,33 +19,24 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
   String result = '';
 
-  Future<void> postUser() async {
-    try {
-      final response = await http.post(
-        Uri.parse('http://localhost:8080/auth/login'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, dynamic>{
-          'username': usernameController.text,
-          'password': passwordController.text,
-        }),
-      );
+  final AuthService _authService = AuthService();
 
-      if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-        setState(() {
-          result = '${responseData['username']}';
-        });
-        // print(responseData);
-        print(result);
-        context.go('/');
-      } else {
-        throw Exception('No se pudo iniciar sesión');
-      }
-    } catch (e) {
+  Future<void> _login() async {
+    if (_stateForm.currentState!.validate()) {
+      final response = await _authService.login(
+        usernameController.text,
+        passwordController.text,
+      );
       setState(() {
-        result = 'Error: $e';
+        result = response;
+      });
+
+      if (response.startsWith('Welcome')) {
+        context.go('/');
+      }
+    } else {
+      setState(() {
+        result = 'Formulario no válido';
       });
     }
   }
@@ -56,8 +46,7 @@ class _LoginState extends State<Login> {
     final inputDecoration = InputDecoration(
       filled: true,
       fillColor: Colors.white,
-      contentPadding:
-          const EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
+      contentPadding: const EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
       border: OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(5.0),
@@ -72,9 +61,6 @@ class _LoginState extends State<Login> {
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(36, 41, 51, 1),
-      // appBar: AppBar(
-      //   title: Header(result: result),
-      // ),
       body: Stack(
         children: [
           const Positioned(top: 25, left: 41, height: 401, child: BgImage()),
@@ -104,13 +90,7 @@ class _LoginState extends State<Login> {
                         width: 101,
                         height: 40,
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (_stateForm.currentState!.validate()) {
-                              postUser();
-                            } else {
-                              print('Formulario no válido');
-                            }
-                          },
+                          onPressed: _login,
                           style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all(
                               const Color.fromRGBO(101, 85, 147, 1),
@@ -131,6 +111,10 @@ class _LoginState extends State<Login> {
                         '¿Olvidaste tu contraseña?',
                         style: inputTextStyle,
                       ),
+                      if (result.isNotEmpty) ...[
+                        const SizedBox(height: 16),
+                        Text(result, style: const TextStyle(color: Colors.red)),
+                      ],
                     ],
                   ),
                 ),
