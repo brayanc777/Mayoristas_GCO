@@ -35,17 +35,13 @@ class UserInput extends StatelessWidget {
                 autofocus: true,
                 style: const TextStyle(),
                 decoration: inputDecoration,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Usuario es requerido';
-                  }
-                  return null;
-                })),
-
-            // Container(
-            //   child: Text(),
-            // )
-
+                // validator: (value) {
+                //   if (value!.isEmpty) {
+                //     return 'Usuario es requerido';
+                //   }
+                //   return null;
+                // }
+                )),
       ],
     );
   }

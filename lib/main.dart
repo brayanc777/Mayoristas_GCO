@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:mayoristas/providers/auth_provider.dart';
 import 'package:mayoristas/ui/router.dart';
+import 'package:provider/provider.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(),
+          child: const MyApp(),
+        )
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -16,8 +29,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-       routerConfig: router,
-       title: 'Mayoristas',
-      );
+      routerDelegate: router.routerDelegate,
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
+      title: 'Mayoristas',
+    );
   }
 }

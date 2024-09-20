@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:mayoristas/models/product_model.dart';
 
 class PluCard extends StatefulWidget {
-  final String id;
-  final String tipo;
-  final String referencia;
-  final String talla;
-  final String color;
+  final ProductModel product;
   final int count;
-  final bool isSelected;
+  final bool isSelected; 
   final ValueChanged<bool> onSelectionChanged;
 
   const PluCard({
     super.key,
-    required this.id,
-    required this.tipo,
-    required this.referencia,
-    required this.talla,
-    required this.color,
+    required this.product,
     required this.count,
     required this.isSelected,
     required this.onSelectionChanged,
@@ -27,8 +20,6 @@ class PluCard extends StatefulWidget {
 }
 
 class _PluCardState extends State<PluCard> {
-  bool isChecked = false; 
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -53,14 +44,22 @@ class _PluCardState extends State<PluCard> {
                     Row(
                       children: [
                         Expanded(
-                          child: Text(widget.id,
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                          child: Text(
+                            widget.product.id.toString(),
+                            style: const TextStyle(
+                              fontSize: 14, 
+                              fontWeight: FontWeight.w600
+                            ),
+                          ),
                         ),
                         Expanded(
-                          child: Text('x ${widget.count} Und.',
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                          child: Text(
+                            'x ${widget.count} Und.',
+                            style: const TextStyle(
+                              fontSize: 14, 
+                              fontWeight: FontWeight.w600
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -69,7 +68,7 @@ class _PluCardState extends State<PluCard> {
                       children: [
                         Expanded(
                           child: Text(
-                            '${widget.tipo}, ${widget.referencia}, ${widget.talla}, ${widget.color}',
+                            '${widget.product.descripcion},${widget.product.codRef}, ${widget.product.talla}, ${widget.product.color}',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
@@ -90,8 +89,6 @@ class _PluCardState extends State<PluCard> {
                 value: widget.isSelected,
                 onChanged: (bool? value) {
                   widget.onSelectionChanged(value ?? false);
-                  
-
                 },
               ),
             ),

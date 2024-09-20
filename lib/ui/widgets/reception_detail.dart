@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:mayoristas/models/product_model.dart';
 import 'dart:convert';
 import 'plu_card.dart';
 
 class ReceptionDetail extends StatefulWidget {
-  const ReceptionDetail({super.key});
+  final ProductModel product;
+  const ReceptionDetail({super.key, required this.product});
 
   @override
   State<ReceptionDetail> createState() => _ReceptionDetailState();
@@ -12,7 +14,7 @@ class ReceptionDetail extends StatefulWidget {
 
 class _ReceptionDetailState extends State<ReceptionDetail> {
   List<dynamic> pluList = [];
-  final List<dynamic> pluById = [];
+  final List<Map<String, dynamic>> pluById = [];
   final TextEditingController pluInputController = TextEditingController();
 
   @override
@@ -58,6 +60,12 @@ class _ReceptionDetailState extends State<ReceptionDetail> {
   void removeSelectedItems() {
     setState(() {
       pluById.removeWhere((item) => item['isSelected']);
+    });
+  }
+
+  void handleSelectionChanged(bool isSelected, int index) {
+    setState(() {
+      pluById[index]['isSelected'] = isSelected;
     });
   }
 
@@ -195,18 +203,17 @@ class _ReceptionDetailState extends State<ReceptionDetail> {
                   itemBuilder: (context, index) {
                     final item = pluById[index];
                     return PluCard(
-                      id: item['Id'],
-                      tipo: item['Tipo'],
-                      referencia: item['Referencia'],
-                      talla: item['Talla'],
-                      color: item['Color'],
+                      product: ProductModel(
+                        id: item['Id'],
+                        descripcion: item['descripcion'],
+                        codRef: item['codRef'],
+                        talla: item['talla'],
+                        color: item['color'],
+                      ),
                       count: item['count'],
                       isSelected: item['isSelected'],
-                      onSelectionChanged: (isSelected) {
-                        setState(() {
-                          item['isSelected'] = isSelected;
-                        });
-                      },
+                      onSelectionChanged: (isSelected) =>
+                          handleSelectionChanged(isSelected, index),
                     );
                   },
                 ),

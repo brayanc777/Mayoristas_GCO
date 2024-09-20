@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../providers/authService.dart';
-import '../../widgets/advisor_logo.dart';
-import '../../widgets/bg_image.dart';
-import '../widgets/password_input.dart';
-import '../widgets/user_input.dart';
+import 'package:http/http.dart' as http;
+import 'package:mayoristas/providers/auth_provider.dart';
+import 'package:mayoristas/ui/widgets/password_input.dart';
+import 'package:mayoristas/ui/widgets/user_input.dart';
+import 'package:mayoristas/widgets/advisor_logo.dart';
+import 'package:mayoristas/widgets/bg_image.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -17,26 +20,34 @@ class _LoginState extends State<Login> {
   final GlobalKey<FormState> _stateForm = GlobalKey<FormState>();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  String result = '';
+  String error = '';
 
-  final AuthService _authService = AuthService();
-
-  Future<void> _login() async {
-    if (_stateForm.currentState!.validate()) {
-      final response = await _authService.login(
-        usernameController.text,
-        passwordController.text,
+  Future<void> postUser() async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://localhost:8080/auth/login'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'username': usernameController.text,
+          'password': passwordController.text,
+        }),
       );
-      setState(() {
-        result = response;
-      });
 
-      if (response.startsWith('Welcome')) {
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        Provider.of<AuthProvider>(context, listen: false).authenticatedTrue();
+        print(responseData['username']);
         context.go('/');
+      } else {
+        setState(() {
+          error = 'Credenciales incorrectas';
+        });
       }
-    } else {
+    } catch (e) {
       setState(() {
-        result = 'Formulario no válido';
+        error = 'Error: $e';
       });
     }
   }
@@ -46,17 +57,16 @@ class _LoginState extends State<Login> {
     final inputDecoration = InputDecoration(
       filled: true,
       fillColor: Colors.white,
-      contentPadding: const EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
+      contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       border: OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(5.0),
       ),
     );
-
     const inputTextStyle = TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w400,
-      fontSize: 12,
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
+      fontSize: 14,
     );
 
     return Scaffold(
@@ -75,22 +85,28 @@ class _LoginState extends State<Login> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       UserInput(
-                        inputTextStyle: inputTextStyle,
-                        usernameController: usernameController,
-                        inputDecoration: inputDecoration,
-                      ),
+                          inputTextStyle: inputTextStyle,
+                          usernameController: usernameController,
+                          inputDecoration: inputDecoration),
                       const SizedBox(height: 8.0),
                       PasswordInput(
-                        inputTextStyle: inputTextStyle,
-                        passwordController: passwordController,
-                        inputDecoration: inputDecoration,
-                      ),
+                          inputTextStyle: inputTextStyle,
+                          passwordController: passwordController,
+                          inputDecoration: inputDecoration),
+                      if (error.isNotEmpty)
+                        Text(error, style: TextStyle(color: Colors.red)),
                       Container(
                         margin: const EdgeInsets.only(top: 32),
                         width: 101,
                         height: 40,
                         child: ElevatedButton(
-                          onPressed: _login,
+                          onPressed: () {
+                            if (_stateForm.currentState!.validate()) {
+                              postUser();
+                            } else {
+                              print('Formulario no válido');
+                            }
+                          },
                           style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all(
                               const Color.fromRGBO(101, 85, 147, 1),
@@ -98,23 +114,13 @@ class _LoginState extends State<Login> {
                           ),
                           child: const Text(
                             'Ingresar',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.0,
-                            ),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
                       const SizedBox(height: 32),
-                      const Text(
-                        '¿Olvidaste tu contraseña?',
-                        style: inputTextStyle,
-                      ),
-                      if (result.isNotEmpty) ...[
-                        const SizedBox(height: 16),
-                        Text(result, style: const TextStyle(color: Colors.red)),
-                      ],
+                      const Text('¿Olvidaste tu contraseña?',
+                          style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ),

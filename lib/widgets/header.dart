@@ -1,61 +1,40 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
-class Header extends StatelessWidget {
-  const Header({
-    super.key,
-    required this.result,
-  });
+import '../providers/auth_provider.dart';
 
-  final String result;
+class Header extends StatefulWidget {
+  const Header({super.key});
 
   @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
+  @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Container(
-            width: 48,
-            height: 43,
-            color: const Color.fromRGBO(247, 245, 255, 1),
-            child: PopupMenuButton<String>(
-              icon: const Icon(Icons.view_list_rounded, color: Color.fromRGBO(36, 41, 51, 1)),
-              onSelected: (value) {
-                switch((value)) {
-                  case 'splash 1':
-                  Navigator.pushNamed(context, '/splash');
-                  break;
-                  case 'splash 2':
-                  Navigator.pushNamed(context, '/splash');
-                  break;
-                  case 'splash 3':
-                  Navigator.pushNamed(context, '/splash');
-                  break;
-                }
+    return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const TextButton(onPressed: null, child: Text('Cerrar secion')),
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                context.read<AuthProvider>().logout(context);
+              //  print(context.watch<AuthProvider>().isAuthenticated.toString());
               },
-              itemBuilder: (BuildContext context) => [
-                const PopupMenuItem<String>(
-                  value: 'splash 1',
-                  child: Text('splash 1'),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'splash 2',
-                  child: Text('splash 2'),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'splash 3',
-                  child: Text('splash 3'),
-                ),
-              ],
             ),
-          ),
+            const TextButton(onPressed: null, child: Text('Cerrar secion'))
+          ],
         ),
-        Text(
-          result,
-        ),
-      ],
+      ),
+      appBar: AppBar(
+        title: const Text('username'),
+      ),
     );
   }
 }
