@@ -1,13 +1,15 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
-import 'package:mayoristas/providers/auth_provider.dart';
 import 'package:mayoristas/ui/widgets/password_input.dart';
 import 'package:mayoristas/ui/widgets/user_input.dart';
 import 'package:mayoristas/widgets/advisor_logo.dart';
 import 'package:mayoristas/widgets/bg_image.dart';
 import 'package:provider/provider.dart';
+
+import '../../providers/auth_provider.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -20,9 +22,8 @@ class _LoginState extends State<Login> {
   final GlobalKey<FormState> _stateForm = GlobalKey<FormState>();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  String error = '';
 
-  Future<void> postUser() async {
+ Future<void> postUser(BuildContext context) async {
     try {
       final response = await http.post(
         Uri.parse('http://localhost:8080/auth/login'),
@@ -37,20 +38,21 @@ class _LoginState extends State<Login> {
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        Provider.of<AuthProvider>(context, listen: false).authenticatedTrue();
-        print(responseData['username']);
+        String token = responseData['jwt'];
+        String username = responseData['username'];
+
+        Provider.of<AuthProvider>(context, listen: false)
+            .setAuthenticated(token, username);
         context.go('/');
+        return responseData['jwt'];
       } else {
-        setState(() {
-          error = 'Credenciales incorrectas';
-        });
+        print(response.statusCode);
+        print('Error: ${response.body}');
       }
     } catch (e) {
-      setState(() {
-        error = 'Error: $e';
-      });
+      print('error: $e');
     }
-  }
+  }  
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +70,6 @@ class _LoginState extends State<Login> {
       fontWeight: FontWeight.w600,
       fontSize: 14,
     );
-
     return Scaffold(
       backgroundColor: const Color.fromRGBO(36, 41, 51, 1),
       body: Stack(
@@ -93,8 +94,6 @@ class _LoginState extends State<Login> {
                           inputTextStyle: inputTextStyle,
                           passwordController: passwordController,
                           inputDecoration: inputDecoration),
-                      if (error.isNotEmpty)
-                        Text(error, style: TextStyle(color: Colors.red)),
                       Container(
                         margin: const EdgeInsets.only(top: 32),
                         width: 101,
@@ -102,7 +101,8 @@ class _LoginState extends State<Login> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (_stateForm.currentState!.validate()) {
-                              postUser();
+                               postUser(context);
+                            //  Provider.of<AuthController>(context, listen: false).postUser(context);
                             } else {
                               print('Formulario no válido');
                             }

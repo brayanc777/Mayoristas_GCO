@@ -4,14 +4,14 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 
-class Postproducts extends StatefulWidget {
- const Postproducts({super.key});
+class ReceptController extends StatefulWidget {
+ const ReceptController({super.key});
 
   @override
-  State<Postproducts> createState() => _PostproductsState();
+  State<ReceptController> createState() => _ReceptControllerState();
 }
 
-class _PostproductsState extends State<Postproducts> {
+class _ReceptControllerState extends State<ReceptController> {
    bool isChecked = false;
   String result = '';
   final TextEditingController sidController = TextEditingController();
@@ -21,13 +21,13 @@ class _PostproductsState extends State<Postproducts> {
   Future postReception() async{
    try {
      final response = await http.post(
-      Uri.parse('http://localhost:8080/recepciones'),
+      Uri.parse('http://localhost:8080/recepciones?=1'),
             headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, dynamic>{
           'sid': String,
-          'caja': String,
+          'caja': int,
           'confirmacion': String,
           'cantidad': int,
           'medida': String,
